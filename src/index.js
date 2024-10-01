@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import './styles/global.css';
 import { render } from 'react-dom';
 import { createStore } from 'redux';
@@ -32,10 +32,12 @@ const store = createStore(function (state, action) {
 });
 
 render(
-  <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
-  </Provider>,
+  <StrictMode>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </Provider>
+  </StrictMode>,
   document.getElementById('root')
 );

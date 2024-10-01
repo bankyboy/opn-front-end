@@ -7,8 +7,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 
-export default function MediaCard({ ...props }) {
-  const { name, imgPath } = props;
+export default function DonationCard({ ...props }) {
+  const { name, imgPath, setIsClick } = props;
 
   return (
     <Card
@@ -48,6 +48,7 @@ export default function MediaCard({ ...props }) {
               borderColor: '#155BE7',
               zIndex: 0,
             }}
+            onClick={() => setIsClick(true)}
           >
             Donate
           </Button>
