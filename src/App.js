@@ -16,6 +16,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import { summaryDonations } from './helpers';
 import DonationCard from './components/donation-card';
+import {
+  UPDATE_MESSAGE,
+  UPDATE_TOTAL_DONATE,
+} from './redux/donation/donationSlice';
 
 const Card = ({ ...props }) => {
   const { index, charitiesData, setCharitiesData, handlePay } = props;
@@ -102,8 +106,8 @@ const initiateData = {
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [charitiesData, setCharitiesData] = useState(initiateData);
-  const totalDonation = useSelector((state) => state.donate);
-  const message = useSelector((state) => state.message);
+  const totalDonation = useSelector((state) => state.donation.donate);
+  const message = useSelector((state) => state.donation.message);
   const [isPaid, setIsPaid] = useState(false);
   const dispatch = useDispatch();
 
@@ -121,10 +125,11 @@ export default function App() {
         return resp.json();
       })
       .then((data) => {
-        dispatch({
-          type: 'UPDATE_TOTAL_DONATE',
-          amount: summaryDonations(data.map((item) => item.amount)),
-        });
+        dispatch(
+          UPDATE_TOTAL_DONATE({
+            amount: summaryDonations(data.map((item) => item.amount)),
+          }),
+        );
         setIsLoading(false);
       });
   }, [dispatch]);
@@ -142,10 +147,11 @@ export default function App() {
       }),
     }).then(() => {
       setIsPaid(true);
-      dispatch({
-        type: 'UPDATE_MESSAGE',
-        message: `${amt} ${cur} have been donated to ${name}`,
-      });
+      dispatch(
+        UPDATE_MESSAGE({
+          message: `${amt} ${cur} have been donated to ${name}`,
+        }),
+      );
     });
 
     fetch('http://localhost:3001/payments')
@@ -153,10 +159,11 @@ export default function App() {
         return resp.json();
       })
       .then(() => {
-        dispatch({
-          type: 'UPDATE_TOTAL_DONATE',
-          amount: amt,
-        });
+        dispatch(
+          UPDATE_TOTAL_DONATE({
+            amount: amt,
+          }),
+        );
       });
   };
 
