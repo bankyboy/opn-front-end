@@ -5,7 +5,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import InfoCard from '../components/info-card';
 
 describe('Component test of InfoCard Component', () => {
-  const mockSetIsClick = jest.fn(); // Mock function for setIsClick
+  const mockSetIsClick = jest.fn();
 
   const props = {
     name: 'Charity1',
@@ -16,11 +16,11 @@ describe('Component test of InfoCard Component', () => {
   test('renders the InfoCard with correct name and image', () => {
     render(<InfoCard {...props} />);
 
-    // Check if the name is rendered correctly
+    // check name on rendered info
     expect(screen.getByText('Charity1')).toBeInTheDocument();
 
-    // Check if the CardMedia component has the correct image
-    const cardMedia = screen.getByRole('img', { name: /charity 1/i });
+    // check image
+    const cardMedia = screen.getByRole('img', { name: /charity1/i });
     expect(cardMedia).toHaveStyle(
       'background-image: url(/images/charity1.png)',
     );
@@ -29,13 +29,10 @@ describe('Component test of InfoCard Component', () => {
   test('Donate button triggers setIsClick function', () => {
     render(<InfoCard {...props} />);
 
-    // Find the button
     const donateButton = screen.getByRole('button', { name: /donate/i });
 
-    // Simulate a click on the Donate button
     fireEvent.click(donateButton);
 
-    // Expect the setIsClick function to be called with true
     expect(mockSetIsClick).toHaveBeenCalledTimes(1);
     expect(mockSetIsClick).toHaveBeenCalledWith(true);
   });

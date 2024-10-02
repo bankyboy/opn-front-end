@@ -8,94 +8,16 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  IconButton,
   Typography,
 } from '@mui/material';
 import PaidIcon from '@mui/icons-material/Paid';
-import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import { summaryDonations } from './lib/helpers';
 import {
   UPDATE_MESSAGE,
   UPDATE_TOTAL_DONATE,
 } from './redux/donation/donationSlice';
-import InfoCard from './components/info-card';
-
-const DonationCard = ({ ...props }) => {
-  const { index, charitiesData, setCharitiesData, handlePay } = props;
-  const charityData = charitiesData.charities[index];
-  const [isClick, setIsClick] = useState(false);
-
-  const payments = [10, 20, 50, 100, 500].map((amount, j) => (
-    <label key={j} className="text-gray-500 font-semibold whitespace-nowrap">
-      <input
-        type="radio"
-        onClick={() => {
-          setCharitiesData((prev) => ({ ...prev, selectedAmount: amount }));
-        }}
-      />
-      &nbsp;{amount}
-    </label>
-  ));
-
-  return (
-    <div className="flex flex-col rounded-2xl shadow-2xl relative w-full md:w-45">
-      <div
-        className={`${
-          isClick ? 'block' : 'hidden'
-        } absolute h-full w-full flex flex-col items-center justify-center rounded-xl gap-2 bg-white opacity-95 z-10 p-4`}
-      >
-        <div className="absolute top-0 right-0 p-4">
-          <IconButton onClick={() => setIsClick(false)}>
-            <CloseIcon />
-          </IconButton>
-        </div>
-        <Typography
-          sx={{
-            fontWeight: 'semiBold',
-            color: '#616A80',
-            textAlign: 'center',
-          }}
-        >
-          Select the amount to donate (USD)
-        </Typography>
-        <Typography
-          sx={{
-            fontWeight: 'semiBold',
-            color: '#616A80',
-            textAlign: 'center',
-          }}
-        >
-          {charityData.name}
-        </Typography>
-        <div className="flex gap-2">{payments}</div>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            setIsClick(false);
-            handlePay(
-              charityData.name,
-              charityData.id,
-              charitiesData.selectedAmount,
-              charityData.currency,
-            );
-          }}
-          sx={{
-            color: '#155BE7',
-            borderColor: '#155BE7',
-          }}
-        >
-          Pay
-        </Button>
-      </div>
-      <InfoCard
-        name={charityData.name}
-        imgPath={`/images/${charityData.image}`}
-        setIsClick={setIsClick}
-      />
-    </div>
-  );
-};
+import DonationCard from './components/donation-card';
 
 const initiateDonateData = {
   charities: [],
@@ -112,8 +34,6 @@ export default function App() {
   const totalDonation = useSelector((state) => state.donation.donate);
   const message = useSelector((state) => state.donation.message);
   const dispatch = useDispatch();
-
-  console.log('test');
 
   useEffect(() => {
     fetch('http://localhost:3001/charities')
@@ -225,7 +145,7 @@ export default function App() {
             sx={{
               textAlign: 'center',
               color: 'black',
-              fontSize: '24px',
+              fontSize: '40px',
               fontWeight: 'bold',
             }}
           >
