@@ -39,5 +39,5 @@ render(
       </ThemeProvider>
     </Provider>
   </StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );

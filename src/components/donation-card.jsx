@@ -23,7 +23,7 @@ export default function DonationCard({ ...props }) {
     >
       <CardMedia sx={{ flex: 3 }} image={imgPath} title={name} />
       <Box
-        className="flex flex-grow justify-between items-center w-full mx-6 h-full"
+        className="flex flex-grow justify-between items-center w-full h-full"
         sx={{
           flex: 1,
         }}
