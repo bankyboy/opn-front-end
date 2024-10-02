@@ -42,7 +42,7 @@ const InputPanel = ({ ...props }) => {
           textAlign: 'center',
         }}
       >
-        Select the amount to donate (USD)
+        Select the amount to donate (THB)
       </Typography>
       <Typography
         sx={{
