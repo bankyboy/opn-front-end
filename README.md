@@ -1,20 +1,23 @@
 <h1 align="center" id="title">Tamboon-React</h1>
 
-<p id="description">Tamboon React is a web application for OPN front end challenge</p>
+<p id="description"><b>Tamboon React</b> is a web application for OPN front end challenge</p>
 
-<h2>Project Screenshots:</h2>
+## Project Screenshots:
 
-<img src="https://i.postimg.cc/m2WMYg9v/Screenshot-2567-10-03-at-01-03-44.png" alt="project-screenshot" width="1000" height="1000/">
+<div>
+ <img src="https://i.postimg.cc/m2WMYg9v/Screenshot-2567-10-03-at-01-03-44.png" alt="project-screenshot" width="450" height="450/">
+<img src="https://i.postimg.cc/G2jBzLrK/Screenshot-2567-10-03-at-01-03-57.png" alt="project-screenshot" width="450" height="450/">
+</div>
 
-<img src="https://i.postimg.cc/G2jBzLrK/Screenshot-2567-10-03-at-01-03-57.png" alt="project-screenshot" width="1000" height="1000/">
 
-## Feature
+## 💻 Features:
 
-- Real time total current donation amount
+- Display real time total current donation amount
+- Real time donation
 - Display message when paid
 - Alert when not choosing amount to donate
 
-<h2>🛠️ Installation Steps:</h2>
+## 🛠️ Installation Steps:
 
 <p>1. Install necessary package</p>
 
@@ -28,9 +31,10 @@ yarn install
 yarn start
 ```
 After running client and server
- - server will be on port 3001
- - client will be on port 3002
+ - Server will be on port 3001
+ - Client will be on port 3002
 
+<p><b>(Optional)</b></p>
 <p>3. Run unit testing for component and helper</p>
 
 ```
