@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 
-export default function DonationCard({ ...props }) {
+export default function InfoCard({ ...props }) {
   const { name, imgPath, setIsClick } = props;
 
   return (

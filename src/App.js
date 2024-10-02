@@ -14,14 +14,14 @@ import {
 import PaidIcon from '@mui/icons-material/Paid';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
-import { summaryDonations } from './helpers';
-import DonationCard from './components/donation-card';
+import { summaryDonations } from './lib/helpers';
 import {
   UPDATE_MESSAGE,
   UPDATE_TOTAL_DONATE,
 } from './redux/donation/donationSlice';
+import InfoCard from './components/info-card';
 
-const Card = ({ ...props }) => {
+const DonationCard = ({ ...props }) => {
   const { index, charitiesData, setCharitiesData, handlePay } = props;
   const charityData = charitiesData.charities[index];
   const [isClick, setIsClick] = useState(false);
@@ -88,7 +88,7 @@ const Card = ({ ...props }) => {
           Pay
         </Button>
       </div>
-      <DonationCard
+      <InfoCard
         name={charityData.name}
         imgPath={`/images/${charityData.image}`}
         setIsClick={setIsClick}
@@ -112,6 +112,8 @@ export default function App() {
   const totalDonation = useSelector((state) => state.donation.donate);
   const message = useSelector((state) => state.donation.message);
   const dispatch = useDispatch();
+
+  console.log('test');
 
   useEffect(() => {
     fetch('http://localhost:3001/charities')
@@ -371,13 +373,14 @@ export default function App() {
         >
           Omise Tamboon React
         </Typography>
-        <div className="flex justify-start w-full items-center">
-          <PaidIcon />
+        <div className="flex justify-center w-full items-center">
+          <PaidIcon fontSize="large" />
           <Typography
             sx={{
               fontWeight: 'bold',
-              textAlign: 'start',
+              textAlign: 'center',
               fontSize: '24px',
+              color: 'grey',
             }}
           >
             Total donations: {totalDonation}&nbsp;฿
@@ -390,7 +393,7 @@ export default function App() {
           {charitiesData.charities.length > 0 ? (
             charitiesData.charities.map((_, index) => {
               return (
-                <Card
+                <DonationCard
                   key={index}
                   index={index}
                   charitiesData={charitiesData}
