@@ -30,7 +30,6 @@ const Card = ({ ...props }) => {
     <label key={j} className="text-gray-500 font-semibold whitespace-nowrap">
       <input
         type="radio"
-        name="payment"
         onClick={() => {
           setCharitiesData((prev) => ({ ...prev, selectedAmount: amount }));
         }}
@@ -98,17 +97,19 @@ const Card = ({ ...props }) => {
   );
 };
 
-const initiateData = {
+const initiateDonateData = {
   charities: [],
-  selectedAmount: 10,
+  selectedAmount: 0,
 };
 
 export default function App() {
+  const [charitiesData, setCharitiesData] = useState(initiateDonateData);
   const [isLoading, setIsLoading] = useState(true);
-  const [charitiesData, setCharitiesData] = useState(initiateData);
+  const [isPaid, setIsPaid] = useState(false);
+  const [isError, setIsError] = useState(false);
+
   const totalDonation = useSelector((state) => state.donation.donate);
   const message = useSelector((state) => state.donation.message);
-  const [isPaid, setIsPaid] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -117,7 +118,7 @@ export default function App() {
         return resp.json();
       })
       .then((data) => {
-        setCharitiesData({ ...initiateData, charities: data });
+        setCharitiesData({ ...initiateDonateData, charities: data });
         setIsLoading(false);
       });
     fetch('http://localhost:3001/payments')
@@ -135,36 +136,46 @@ export default function App() {
   }, [dispatch]);
 
   const handlePay = async (name, id, amt, cur) => {
-    fetch('http://localhost:3001/payments', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        charitiesId: id,
-        amount: amt,
-        currency: cur,
-      }),
-    }).then(() => {
-      setIsPaid(true);
-      dispatch(
-        UPDATE_MESSAGE({
-          message: `${amt} ${cur} have been donated to ${name}`,
+    if (amt > 0) {
+      fetch('http://localhost:3001/payments', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          charitiesId: id,
+          amount: amt,
+          currency: cur,
         }),
-      );
-    });
-
-    fetch('http://localhost:3001/payments')
-      .then((resp) => {
-        return resp.json();
-      })
-      .then(() => {
+      }).then(() => {
+        setIsPaid(true);
         dispatch(
-          UPDATE_TOTAL_DONATE({
-            amount: amt,
+          UPDATE_MESSAGE({
+            message: `${amt} ${cur} have been donated to ${name}`,
           }),
         );
       });
+
+      fetch('http://localhost:3001/payments')
+        .then((resp) => {
+          return resp.json();
+        })
+        .then(() => {
+          dispatch(
+            UPDATE_TOTAL_DONATE({
+              amount: amt,
+            }),
+          );
+        });
+    } else {
+      setIsError(true);
+      dispatch(
+        UPDATE_MESSAGE({
+          message: 'Please enter amount to donate',
+        }),
+      );
+    }
+    setCharitiesData((prev) => ({ ...prev, selectedAmount: 0 }));
   };
 
   if (isLoading) {
@@ -233,6 +244,62 @@ export default function App() {
           </DialogActions>
         </div>
       </Dialog>
+      <Dialog
+        open={isError}
+        slotProps={{
+          backdrop: {
+            sx: {
+              backgroundColor: 'rgba(0, 0, 0, 0.7)', // Darken the backdrop
+            },
+          },
+        }}
+      >
+        <div className="flex flex-col items-center mt-4">
+          <img
+            src="/images/choose.png"
+            alt="thank-you-img"
+            className="w-32 h-32"
+          />
+          <DialogTitle
+            id="alert-welcome-dialog-title"
+            sx={{
+              textAlign: 'center',
+              color: 'black',
+              fontSize: '24px',
+              fontWeight: 'bold',
+            }}
+          >
+            No amount selected
+          </DialogTitle>
+        </div>
+        <DialogContent>
+          <DialogContentText
+            id="alert-welcome-dialog-description"
+            sx={{
+              textAlign: 'center',
+            }}
+          >
+            {message}
+          </DialogContentText>
+        </DialogContent>
+        <div className="flex flex-grow w-full gap-2 justify-center p-5">
+          <DialogActions
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Button
+              variant="contained"
+              className="w-full"
+              color="error"
+              onClick={() => setIsError(false)}
+            >
+              Close
+            </Button>
+          </DialogActions>
+        </div>
+      </Dialog>
       <div className="flex flex-col items-center justify-center my-10 mx-6 md:mx-24 gap-4">
         <Typography
           className="text-center"
@@ -255,7 +322,10 @@ export default function App() {
             Total donations: {totalDonation}&nbsp;฿
           </Typography>
         </div>
-        <div className="flex flex-col justify-between flex-wrap gap-10 md:flex-row h-full w-full">
+        <div
+          data-aos="zoom-in-down"
+          className="flex flex-col justify-between flex-wrap gap-10 md:flex-row h-full w-full"
+        >
           {charitiesData.charities.length > 0 ? (
             charitiesData.charities.map((_, index) => {
               return (
