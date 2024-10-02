@@ -4,7 +4,7 @@
 
 ## Project Screenshots:
 
-<div>
+<div align='center'>
  <img src="https://i.postimg.cc/m2WMYg9v/Screenshot-2567-10-03-at-01-03-44.png" alt="project-screenshot" width="450" height="450/">
 <img src="https://i.postimg.cc/G2jBzLrK/Screenshot-2567-10-03-at-01-03-57.png" alt="project-screenshot" width="450" height="450/">
 </div>
