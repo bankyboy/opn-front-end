@@ -107,6 +107,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isPaid, setIsPaid] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [openTotal, setIsOpenTotal] = useState(true);
 
   const totalDonation = useSelector((state) => state.donation.donate);
   const message = useSelector((state) => state.donation.message);
@@ -188,6 +189,65 @@ export default function App() {
 
   return (
     <div className="h-screen overflow-x-hidden z-1000">
+      <Dialog
+        open={openTotal}
+        slotProps={{
+          backdrop: {
+            sx: {
+              backgroundColor: 'rgba(0, 0, 0, 0.9)', // Darken the backdrop
+            },
+          },
+        }}
+      >
+        <div className="flex flex-col items-center mt-4">
+          <img
+            src="/images/donation.png"
+            alt="thank-you-img"
+            className="w-32 h-32"
+          />
+          <DialogTitle
+            id="alert-welcome-dialog-title"
+            sx={{
+              textAlign: 'center',
+              color: 'black',
+              fontSize: '24px',
+              fontWeight: 'bold',
+            }}
+          >
+            Current Total Amount of Tamboon
+          </DialogTitle>
+        </div>
+        <DialogContent>
+          <DialogContentText
+            id="alert-welcome-dialog-description"
+            sx={{
+              textAlign: 'center',
+              color: 'black',
+              fontSize: '24px',
+              fontWeight: 'bold',
+            }}
+          >
+            {totalDonation}&nbsp;฿
+          </DialogContentText>
+        </DialogContent>
+        <div className="flex flex-grow w-full gap-2 justify-center p-5">
+          <DialogActions
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Button
+              variant="contained"
+              className="w-full"
+              color="primary"
+              onClick={() => setIsOpenTotal(false)}
+            >
+              Enter Tamboon site
+            </Button>
+          </DialogActions>
+        </div>
+      </Dialog>
       <Dialog
         open={isPaid}
         slotProps={{
@@ -311,12 +371,13 @@ export default function App() {
         >
           Omise Tamboon React
         </Typography>
-        <div className="flex justify-start w-full">
+        <div className="flex justify-start w-full items-center">
           <PaidIcon />
           <Typography
             sx={{
               fontWeight: 'bold',
               textAlign: 'start',
+              fontSize: '24px',
             }}
           >
             Total donations: {totalDonation}&nbsp;฿
