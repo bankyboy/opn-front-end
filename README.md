@@ -12,10 +12,10 @@
 
 ## 💻 Features:
 
-- Display real time total current donation amount
-- Real time donation
+- Display real-time total current donation amount
+- Real-time donation
 - Display message when paid
-- Alert when not choosing amount to donate
+- Alert when not choosing the amount to donate
 
 ## 🛠️ Installation Steps:
 
