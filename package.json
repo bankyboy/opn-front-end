@@ -9,6 +9,7 @@
   "scripts": {
     "server": "json-server --watch db.json --port 3001",
     "client": "webpack serve --port 3002",
+    "start": "yarn client & yarn server",
     "test": "jest",
     "fmt": "prettier --write src"
   },
